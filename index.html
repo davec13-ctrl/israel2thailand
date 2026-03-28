@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Israel to Thailand — Our Family Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* ── Reset & Tokens ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #0d7a7a;   /* deep teal */
+      --primary-d: #095f5f;
+      --accent:    #f0a500;   /* warm gold */
+      --accent-d:  #d48f00;
+      --dark:      #131d22;
+      --mid:       #3b5259;
+      --light:     #f4f8f7;
+      --white:     #ffffff;
+      --shadow:    0 8px 32px rgba(13,122,122,.12);
+      --radius:    14px;
+      --transition: .25s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.65;
+    }
+
+    /* ── Utility ────────────────────────────────────────────── */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 50px; font-weight: 600;
+      font-size: 1rem; cursor: pointer; transition: var(--transition);
+      text-decoration: none; border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--dark);
+    }
+    .btn-primary:hover { background: var(--accent-d); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(240,165,0,.35); }
+
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 2px solid var(--white);
+    }
+    .btn-outline:hover { background: var(--white); color: var(--primary); transform: translateY(-2px); }
+
+    .section-tag {
+      display: inline-block; background: rgba(13,122,122,.1); color: var(--primary);
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 50px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem; color: var(--mid); max-width: 560px;
+    }
+
+    /* ── Nav ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13,122,122,.1);
+      transition: var(--transition);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--primary); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem; font-weight: 500; color: var(--mid);
+      text-decoration: none; transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { margin-left: 16px; padding: 10px 24px; font-size: .9rem; }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    #hero {
+      position: relative; overflow: hidden;
+      min-height: 100vh; display: flex; align-items: center;
+      background: linear-gradient(135deg, #0a5050 0%, #0d7a7a 45%, #1a9999 100%);
+      padding-top: 70px;
+    }
+
+    .hero-bg-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(240,165,0,.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.06) 0%, transparent 50%);
+    }
+
+    /* Decorative floating elements */
+    .hero-deco {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero-deco-1 { width: 300px; height: 300px; top: -80px; right: -60px; animation-delay: 0s; }
+    .hero-deco-2 { width: 200px; height: 200px; bottom: 40px; right: 15%; animation-delay: 2s; }
+    .hero-deco-3 { width: 120px; height: 120px; top: 30%; left: 5%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-20px); }
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      padding: 80px 0;
+    }
+
+    .hero-flag-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .flag {
+      font-size: 2rem; line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+    }
+    .flag-arrow {
+      color: var(--accent); font-size: 1.4rem; font-weight: 700;
+    }
+    .hero-tag {
+      font-size: .8rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      background: rgba(240,165,0,.15); padding: 5px 14px;
+      border-radius: 50px; border: 1px solid rgba(240,165,0,.3);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800; color: var(--white);
+      line-height: 1.15; margin-bottom: 20px;
+    }
+    .hero-title .highlight {
+      color: var(--accent);
+      position: relative;
+    }
+    .hero-title .highlight::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 3px; background: var(--accent); border-radius: 2px;
+      opacity: .5;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,.8);
+      margin-bottom: 40px; max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px; padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.15);
+    }
+    .stat-item { }
+    .stat-num {
+      font-size: 2rem; font-weight: 800; color: var(--accent);
+      font-family: 'Playfair Display', serif; line-height: 1;
+    }
+    .stat-label {
+      font-size: .8rem; color: rgba(255,255,255,.6);
+      text-transform: uppercase; letter-spacing: .08em; margin-top: 4px;
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-card-stack {
+      position: relative; width: 360px; height: 420px;
+    }
+    .h-card {
+      position: absolute;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+    .h-card-main {
+      width: 300px; height: 380px;
+      top: 20px; left: 30px;
+      background: linear-gradient(160deg, #1a9999, #095f5f);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+    }
+    .h-card-back {
+      width: 260px; height: 340px;
+      top: 0; left: 0;
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.15);
+      transform: rotate(-8deg);
+    }
+    .h-card-front {
+      width: 260px; height: 320px;
+      top: 60px; right: 0;
+      background: rgba(240,165,0,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(240,165,0,.25);
+      transform: rotate(6deg);
+    }
+    .h-card-main .emoji-big { font-size: 4rem; }
+    .h-card-main .card-label {
+      color: rgba(255,255,255,.9); font-size: .95rem;
+      font-weight: 600; text-align: center;
+    }
+    .journey-path {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.1); padding: 10px 20px;
+      border-radius: 50px; margin-top: 8px;
+    }
+    .journey-path span { font-size: 1.4rem; }
+    .path-line {
+      flex: 1; height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,.3), var(--accent), rgba(255,255,255,.3));
+      width: 40px;
+    }
+
+    /* ── Story Section ──────────────────────────────────────── */
+    #story {
+      padding: 100px 0;
+      background: var(--light);
+    }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .story-visual {
+      position: relative;
+    }
+    .story-img-box {
+      width: 100%; aspect-ratio: 4/5;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #0d7a7a, #1a9999);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem;
+      box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .story-img-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(240,165,0,.15) 0%, transparent 60%);
+    }
+    .story-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--accent); color: var(--dark);
+      width: 110px; height: 110px; border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: .8rem;
+      text-align: center; line-height: 1.3;
+      box-shadow: 0 8px 24px rgba(240,165,0,.4);
+    }
+    .story-badge .badge-num { font-size: 1.6rem; font-weight: 800; }
+
+    .story-content { }
+    .story-content .section-sub { max-width: 100%; margin-bottom: 24px; }
+    .story-body {
+      font-size: 1rem; color: var(--mid); line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .timeline {
+      margin-top: 36px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .timeline-item {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .tl-dot {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--primary); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .tl-text strong { font-weight: 600; color: var(--dark); display: block; }
+    .tl-text span { font-size: .9rem; color: var(--mid); }
+
+    /* ── Services ───────────────────────────────────────────── */
+    #services {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .services-header { text-align: center; margin-bottom: 60px; }
+    .services-header .section-sub { margin: 0 auto; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .service-card {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: var(--transition);
+      border: 2px solid transparent;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0; transition: var(--transition);
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(13,122,122,.15);
+      box-shadow: var(--shadow);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), #1a9999);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(13,122,122,.25);
+    }
+    .service-card h3 {
+      font-size: 1.15rem; font-weight: 700; margin-bottom: 10px;
+      color: var(--dark);
+    }
+    .service-card p { font-size: .9rem; color: var(--mid); line-height: 1.7; }
+
+    /* ── Testimonials ───────────────────────────────────────── */
+    #reviews {
+      padding: 100px 0;
+      background: linear-gradient(135deg, #0a5050 0%, #0d7a7a 100%);
+      position: relative; overflow: hidden;
+    }
+    #reviews::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 70% 50%, rgba(240,165,0,.08) 0%, transparent 60%);
+    }
+    .reviews-header { text-align: center; margin-bottom: 60px; }
+    .reviews-header .section-tag {
+      background: rgba(240,165,0,.15); color: var(--accent);
+    }
+    .reviews-header .section-title { color: var(--white); }
+    .reviews-header .section-sub { color: rgba(255,255,255,.7); margin: 0 auto; }
+
+    .reviews-grid {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .review-card {
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: var(--transition);
+    }
+    .review-card:hover {
+      background: rgba(255,255,255,.12);
+      transform: translateY(-4px);
+    }
+    .stars {
+      color: var(--accent); font-size: 1rem;
+      letter-spacing: 2px; margin-bottom: 16px;
+    }
+    .review-text {
+      color: rgba(255,255,255,.85); font-size: .95rem;
+      line-height: 1.75; margin-bottom: 24px;
+      font-style: italic;
+    }
+    .review-author {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #f5c542);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--dark); font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .author-name { font-weight: 600; color: var(--white); font-size: .9rem; }
+    .author-loc { font-size: .8rem; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+    /* ── Contact ────────────────────────────────────────────── */
+    #contact {
+      padding: 100px 0;
+      background: var(--light);
+    }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 80px; align-items: start;
+    }
+    .contact-info { }
+    .contact-info .section-sub { margin-bottom: 36px; }
+    .contact-list {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .contact-icon {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary), #1a9999);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(13,122,122,.2);
+    }
+    .contact-item-label {
+      font-size: .75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--primary); margin-bottom: 2px;
+    }
+    .contact-item-val { font-size: .95rem; color: var(--mid); }
+
+    /* Form */
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 44px 40px;
+      box-shadow: var(--shadow);
+    }
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .form-sub { font-size: .9rem; color: var(--mid); margin-bottom: 32px; }
+
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group {
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      font-size: .8rem; font-weight: 600; color: var(--dark);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 16px;
+      border: 1.5px solid #e0e8e8;
+      border-radius: 10px;
+      font-size: .95rem; font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      background: var(--white); outline: none;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(13,122,122,.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      width: 100%; justify-content: center;
+      padding: 16px; font-size: 1rem;
+      border-radius: 12px;
+    }
+
+    /* Success message */
+    .form-success {
+      display: none;
+      text-align: center; padding: 24px;
+      background: rgba(13,122,122,.08);
+      border: 1px solid rgba(13,122,122,.2);
+      border-radius: 12px; margin-top: 16px;
+      color: var(--primary); font-weight: 600;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      background: var(--dark);
+      padding: 48px 0 32px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: var(--white); font-weight: 700;
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: .85rem; color: rgba(255,255,255,.4); }
+    .footer-flags { font-size: 1.6rem; letter-spacing: 4px; }
+
+    /* ── Scroll reveal ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner, .story-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-stats { gap: 20px; flex-wrap: wrap; }
+      .story-badge { right: 16px; bottom: -16px; width: 90px; height: 90px; }
+      .contact-grid { gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .contact-form-wrap { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">Israel<span>2</span>Thailand</a>
+      <ul class="nav-links">
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary nav-cta">Leave Details ↗</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-deco hero-deco-1"></div>
+    <div class="hero-deco hero-deco-2"></div>
+    <div class="hero-deco hero-deco-3"></div>
+
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-flag-row">
+            <span class="flag">🇮🇱</span>
+            <span class="flag-arrow">→</span>
+            <span class="flag">🇹🇭</span>
+            <span class="hero-tag" style="margin-left:8px;">A Family Journey</span>
+          </div>
+          <h1 class="hero-title">
+            We Made the Move.<br/>
+            Now We Help<br/>
+            <span class="highlight">You Do the Same.</span>
+          </h1>
+          <p class="hero-sub">
+            Our family relocated from Israel to Thailand and turned every lesson learned into a service
+            that makes your transition smooth, informed, and truly life-changing.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Leave Your Details ↗</a>
+            <a href="#story" class="btn btn-outline">Our Story</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-num">7+</div>
+              <div class="stat-label">Years in Thailand</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">200+</div>
+              <div class="stat-label">Families Helped</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">5★</div>
+              <div class="stat-label">Avg. Rating</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual card stack -->
+        <div class="hero-visual">
+          <div class="hero-card-stack">
+            <div class="h-card h-card-back"></div>
+            <div class="h-card h-card-front"></div>
+            <div class="h-card h-card-main">
+              <div class="emoji-big">🌴</div>
+              <div class="card-label">Thailand<br/>Dream Life</div>
+              <div class="journey-path">
+                <span>🇮🇱</span>
+                <div class="path-line"></div>
+                <span>✈️</span>
+                <div class="path-line"></div>
+                <span>🇹🇭</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Story ── -->
+  <section id="story">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-visual reveal">
+          <div class="story-img-box">🏡</div>
+          <div class="story-badge">
+            <span class="badge-num">7</span>
+            Years of<br/>Experience
+          </div>
+        </div>
+
+        <div class="story-content reveal">
+          <span class="section-tag">Our Story</span>
+          <h2 class="section-title">From Tel Aviv to<br/>Chiang Mai — and Beyond</h2>
+          <p class="story-body">
+            It started with a dream and a one-way ticket. We were a regular Israeli family — two parents,
+            two kids, a busy apartment, and a nagging feeling that life could look completely different.
+          </p>
+          <p class="story-body">
+            In 2018 we packed everything, said goodbye to the familiar, and landed in Thailand.
+            The first year was full of surprises — cultural shifts, visa bureaucracy, school hunting,
+            and learning where to buy hummus. But also: warm smiles, golden temples, and a pace of
+            life we didn't know we were missing.
+          </p>
+          <p class="story-body">
+            Today we live our best life here — and we've made it our mission to help other
+            Israeli families do the same, with far less guesswork.
+          </p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="tl-dot">✈️</div>
+              <div class="tl-text">
+                <strong>2018 — The Big Move</strong>
+                <span>Left Israel, arrived in Chiang Mai with two suitcases and a lot of hope.</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">📚</div>
+              <div class="tl-text">
+                <strong>2019 — Learning the Ropes</strong>
+                <span>Navigated visas, schools, healthcare, and built our local community.</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">🤝</div>
+              <div class="tl-text">
+                <strong>2020 — Helping Others</strong>
+                <span>Started guiding families through the same journey we'd just completed.</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">🌟</div>
+              <div class="tl-text">
+                <strong>2025 — 200+ Families Helped</strong>
+                <span>Our network spans Bangkok, Chiang Mai, Koh Samui & Phuket.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services ── -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header reveal">
+        <span class="section-tag">What We Offer</span>
+        <h2 class="section-title">Everything You Need<br/>to Make the Move</h2>
+        <p class="section-sub">From the first question to your first Thai New Year — we're with you every step of the way.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">🗺️</div>
+          <h3>Relocation Consulting</h3>
+          <p>Personalized guidance on choosing the right city, neighborhood, and lifestyle in Thailand based on your family's needs and budget.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">📋</div>
+          <h3>Visa & Legal Support</h3>
+          <p>Step-by-step help with Thai visas, retirement permits, education visas, and long-term stay options — no surprises.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🏠</div>
+          <h3>Housing Search</h3>
+          <p>We connect you with trusted local agents and negotiate on your behalf so you find a great home without overpaying.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🎓</div>
+          <h3>School & Education</h3>
+          <p>International schools, Jewish community programs, and Thai language classes — we match your children to the right fit.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🏥</div>
+          <h3>Healthcare Navigation</h3>
+          <p>Thailand has world-class hospitals. We help you choose the right insurance plan and find English-speaking doctors you can trust.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🤝</div>
+          <h3>Community Integration</h3>
+          <p>Connect with the Israeli expat community, local events, and synagogues so your family feels at home from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reviews ── -->
+  <section id="reviews">
+    <div class="container">
+      <div class="reviews-header reveal">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title">Families Who Made<br/>the Leap</h2>
+        <p class="section-sub">Real stories from real families who trusted us with their biggest adventure.</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "We spent months researching the move on our own and got nowhere. One call with this family and we had a clear roadmap. Six months later we're living in Chiang Mai and we couldn't be happier."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">DK</div>
+            <div>
+              <div class="author-name">Daniel & Karin Levy</div>
+              <div class="author-loc">📍 Chiang Mai · Moved from Tel Aviv</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "The school search alone was worth every shekel. They found an amazing international school for our two kids within two weeks. The whole visa process was handled without any stress."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">YS</div>
+            <div>
+              <div class="author-name">Yossi & Shira Cohen</div>
+              <div class="author-loc">📍 Bangkok · Moved from Herzliya</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "As a single mom I was terrified to make this move alone. The support I got was incredible — from finding my apartment to connecting me with the Israeli community. I feel so at home here."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">NB</div>
+            <div>
+              <div class="author-name">Noa Bar-Lev</div>
+              <div class="author-loc">📍 Koh Samui · Moved from Haifa</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "We did everything remotely — they handled our housing search, school registration, and even our Thai SIM cards before we landed. The landing was smooth beyond belief."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">MR</div>
+            <div>
+              <div class="author-name">Moshe & Rachel Goldstein</div>
+              <div class="author-loc">📍 Phuket · Moved from Jerusalem</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "The healthcare advice alone saved us from a terrible insurance plan. They pointed us to the exact policy that covers our whole family and costs half of what we expected."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">TA</div>
+            <div>
+              <div class="author-name">Tal & Amir Shapiro</div>
+              <div class="author-loc">📍 Chiang Mai · Moved from Ra'anana</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">
+            "What makes them special is that they've lived it themselves. Every piece of advice came from real experience. Not a Google search — actual lived knowledge that saved us months of mistakes."
+          </p>
+          <div class="review-author">
+            <div class="author-avatar">OL</div>
+            <div>
+              <div class="author-name">Oren & Lihi Mizrahi</div>
+              <div class="author-loc">📍 Bangkok · Moved from Beer Sheva</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <span class="section-tag">Get in Touch</span>
+          <h2 class="section-title">Ready to Start<br/>Your Journey?</h2>
+          <p class="section-sub">Leave your details and we'll reach out within 24 hours for a free introductory call.</p>
+
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div>
+                <div class="contact-item-label">WhatsApp / Phone</div>
+                <div class="contact-item-val">+66 XX XXX XXXX</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-val">hello@israel2thailand.com</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-item-label">Based In</div>
+                <div class="contact-item-val">Chiang Mai, Thailand 🇹🇭</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">🕐</div>
+              <div>
+                <div class="contact-item-label">Response Time</div>
+                <div class="contact-item-val">Within 24 hours</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap reveal">
+          <h3 class="form-title">Leave Your Details</h3>
+          <p class="form-sub">We'll get back to you with a free 30-minute consultation call.</p>
+
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="fname" placeholder="Yossi" required />
+              </div>
+              <div class="form-group">
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lname" placeholder="Cohen" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone / WhatsApp</label>
+              <input type="tel" id="phone" name="phone" placeholder="+972 XX XXX XXXX" />
+            </div>
+            <div class="form-group">
+              <label for="destination">Destination in Mind</label>
+              <select id="destination" name="destination">
+                <option value="">— I'm not sure yet —</option>
+                <option>Chiang Mai</option>
+                <option>Bangkok</option>
+                <option>Phuket</option>
+                <option>Koh Samui</option>
+                <option>Other / Open to suggestions</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Tell Us a Bit About Your Plans</label>
+              <textarea id="message" name="message" placeholder="Family size, timeline, main questions..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Send Message ↗</button>
+            <div class="form-success" id="formSuccess">
+              🎉 Thank you! We'll be in touch within 24 hours.
+            </div>
+            <div id="formError" style="display:none;margin-top:12px;padding:12px 16px;background:#fff0f0;border:1px solid #f5a;border-radius:10px;color:#c00;font-size:.9rem;word-break:break-all;"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-logo">Israel<span>2</span>Thailand</div>
+      <div class="footer-copy">© 2025 Israel2Thailand. All rights reserved.</div>
+      <div class="footer-flags">🇮🇱 🌴 🇹🇭</div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll reveal ──────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Supabase ───────────────────────────────────
+    const _sb = supabase.createClient(
+      'https://arxulpawoydxchhowmnk.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyeHVscGF3b3lkeGNoaG93bW5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2OTA2NTksImV4cCI6MjA5MDI2NjY1OX0.OMjEU_Bn7u0P2nbKIa1wTO8uGBdAB1blwdDoc0S2Yac'
+    );
+
+    // ── Form submit ────────────────────────────────
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.form-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const payload = {
+        first_name:  document.getElementById('fname').value.trim(),
+        last_name:   document.getElementById('lname').value.trim(),
+        email:       document.getElementById('email').value.trim(),
+        phone:       document.getElementById('phone').value.trim(),
+        destination: document.getElementById('destination').value,
+        message:     document.getElementById('message').value.trim(),
+        created_at:  new Date().toISOString()
+      };
+
+      const { error } = await _sb.from('leads').insert([payload]);
+
+      if (error) {
+        btn.textContent = 'Error — try again';
+        btn.disabled = false;
+        const errEl = document.getElementById('formError');
+        errEl.textContent = '⚠️ ' + (error.message || JSON.stringify(error));
+        errEl.style.display = 'block';
+      } else {
+        document.getElementById('formSuccess').style.display = 'block';
+        btn.style.display = 'none';
+      }
+    });
+
+    // ── Navbar shadow on scroll ────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.boxShadow =
+        window.scrollY > 20 ? '0 4px 20px rgba(0,0,0,.08)' : 'none';
+    });
+  </script>
+</body>
+</html>
