@@ -577,70 +577,74 @@
   </nav>
 
   <!-- ── Hero ── -->
-  <section id="hero">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-deco hero-deco-1"></div>
-    <div class="hero-deco hero-deco-2"></div>
-    <div class="hero-deco hero-deco-3"></div>
+  <section id="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden" style="padding-top:0">
 
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-content">
-          <div class="hero-flag-row">
-            <span class="flag">🇮🇱</span>
-            <span class="flag-arrow">→</span>
-            <span class="flag">🇹🇭</span>
-            <span class="hero-tag" style="margin-left:8px;">A Family Journey</span>
-          </div>
-          <h1 class="hero-title">
-            We Made the Move.<br/>
-            Now We Help<br/>
-            <span class="highlight">You Do the Same.</span>
-          </h1>
-          <p class="hero-sub">
-            Our family relocated from Israel to Thailand and turned every lesson learned into a service
-            that makes your transition smooth, informed, and truly life-changing.
-          </p>
-          <div class="hero-actions">
-            <a href="#contact" class="btn btn-primary">Leave Your Details ↗</a>
-            <a href="#story" class="btn btn-outline">Our Story</a>
-          </div>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-num">7+</div>
-              <div class="stat-label">Years in Thailand</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num">200+</div>
-              <div class="stat-label">Families Helped</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num">5★</div>
-              <div class="stat-label">Avg. Rating</div>
-            </div>
-          </div>
+    <!-- Background image -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBvfiB438FnL7Tc33fPx9qjCuf041kkDMXoIrEb7D4NNtUaddS4pC_wwpQ32fJ_EniYT0pFWiPutu-6MeyJ25Qnn_5shaKXRRS5xjCkcPM6Xe_z9L0R6epp0vcUjaLj1ha9P3b-TfdYxhvq0tmfWrTs6YcpQTWjJLcNlcNT3NjgkAtT0rlSPNrKZgtetX9WFWaVNzdyXPgT-IzwBZn0OsVRaRWuYNZh9sL_Oilf5z6bCYHlvq1EKxkjOCoKn0Dz2lrVh8eb6GzWIM"
+           alt="Thailand jungle pool at dusk"
+           class="w-full h-full object-cover" />
+      <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(13,122,122,.92) 0%, rgba(13,122,122,.45) 50%, transparent 100%)"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-8 md:px-16 pt-28 pb-48">
+      <div class="max-w-3xl space-y-8">
+
+        <!-- Tag -->
+        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/20"
+             style="background:rgba(255,255,255,.1);backdrop-filter:blur(12px)">
+          <span style="font-size:1.3rem">🇮🇱 → 🇹🇭</span>
+          <span class="text-white text-xs font-bold uppercase tracking-widest">Your Journey Through Thailand</span>
         </div>
 
-        <!-- Visual card stack -->
-        <div class="hero-visual">
-          <div class="hero-card-stack">
-            <div class="h-card h-card-back"></div>
-            <div class="h-card h-card-front"></div>
-            <div class="h-card h-card-main">
-              <div class="emoji-big">🌴</div>
-              <div class="card-label">Thailand<br/>Dream Life</div>
-              <div class="journey-path">
-                <span>🇮🇱</span>
-                <div class="path-line"></div>
-                <span>✈️</span>
-                <div class="path-line"></div>
-                <span>🇹🇭</span>
-              </div>
-            </div>
+        <!-- Headline -->
+        <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2.6rem,7vw,5.5rem); color:#fff; line-height:1.1; font-weight:300;">
+          We Made the Move.<br/>
+          <em style="font-style:italic; font-weight:400;">Now We Help You Do the Same.</em>
+        </h1>
+
+        <!-- Sub -->
+        <p style="color:rgba(255,255,255,.82); font-size:1.2rem; font-weight:300; max-width:560px; line-height:1.7;">
+          Bespoke relocation support for Israeli families seeking a new life in Thailand — from visa paperwork to finding your first home on the beach.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-5 pt-2">
+          <a href="#contact" class="btn btn-primary" style="font-size:1.05rem; padding:16px 36px;">Begin Your Relocation ↗</a>
+          <a href="#story"   class="btn btn-outline" style="font-size:1.05rem; padding:16px 36px;">Our Story</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Glass stats bar -->
+    <div class="absolute bottom-0 left-0 w-full z-20 pb-8 px-8 md:px-16">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-wrap justify-around items-center gap-6 rounded-2xl p-8"
+             style="background:rgba(255,255,255,.08); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.12);">
+          <div class="text-center">
+            <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:#ffddaf;">7+</div>
+            <div style="font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.65);">Years in Thailand</div>
+          </div>
+          <div class="hidden md:block" style="width:1px;height:48px;background:rgba(255,255,255,.2)"></div>
+          <div class="text-center">
+            <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:#ffddaf;">200+</div>
+            <div style="font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.65);">Families Helped</div>
+          </div>
+          <div class="hidden md:block" style="width:1px;height:48px;background:rgba(255,255,255,.2)"></div>
+          <div class="text-center">
+            <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:#ffddaf;">5 ★</div>
+            <div style="font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.65);">Avg. Rating</div>
+          </div>
+          <div class="hidden md:block" style="width:1px;height:48px;background:rgba(255,255,255,.2)"></div>
+          <div class="text-center">
+            <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:#ffddaf;">100%</div>
+            <div style="font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.65);">Bespoke Support</div>
           </div>
         </div>
       </div>
     </div>
+
   </section>
 
   <!-- ── Story ── -->
